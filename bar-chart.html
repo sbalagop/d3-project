@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
+    <style>
+        #chart {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        #chart>div {
+            background-color: teal;
+            margin: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chart">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <script>
+        const data = [90, 70, 50, 30, 10];
+        d3.select('#chart').selectAll('div').data(data).style('width', "50px").style('height',
+            (d) => d + "px");
+        d3.select('#chart').style('height', () => (2 * Math.max(...data)) + "px");
+    </script>
+</body>
+
+</html>
