@@ -21,7 +21,7 @@
     </div>
     <script>
         const data = [90, 70, 50, 30, 10];
-        d3.select('#chart').selectAll('div').enter().append('div').data(data).style('width', "50px").style('height',
+        d3.select('#chart').selectAll('div').data(data).enter().append('div').style('width', "50px").style('height',
             (d) => d + "px");
         d3.select('#chart').style('height', () => (2 * Math.max(...data)) + "px");
   
