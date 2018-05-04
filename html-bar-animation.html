@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico"
+    />
+    <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg"
+        color="#111" />
+    <title>CodePen - Bar chart html animation</title>
+
+    <style>
+        #chart {
+            display: flex;
+            align-items: flex-end;
+            height: 200px;
+            border: 1px solid silver;
+            width: 510px;
+        }
+
+        .bar {
+            background-color: lightsalmon;
+            margin: 0px 2px;
+            width: 100px;
+        }
+
+        button {
+            padding: 10px;
+            border-radius: 10px;
+            background-color: goldenrod;
+            font-size: 2vw;
+            margin-left: 10px;
+        }
+
+        button:active,
+        button:focus {
+            outline: 0;
+            box-shadow: 2px 2px;
+        }
+
+        .button-bar {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            width: 510px;
+        }
+    </style>
+
+    <script>
+        window.console = window.console || function (t) {};
+    </script>
+
+
+
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
+
+
+</head>
+
+<body translate="no">
+
+    <div id="chart">
+    </div>
+    <div class="button-bar">
+        <button onclick="render('math')">Math</button>
+        <button onclick="render('science')">Science</button>
+    </div>
+    <script src="//static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js'></script>
+
+
+
+    <script>
+        const data = [{
+                name: "Alice",
+                math: 93,
+                science: 84
+            },
+            {
+                name: "Bobby",
+                math: 81,
+                science: 97
+            },
+            {
+                name: "Carol",
+                math: 74,
+                science: 88
+            },
+            {
+                name: "David",
+                math: 25,
+                science: 95
+            },
+            {
+                name: "Emily",
+                math: 80,
+                science: 94
+            }
+        ];
+
+        let render = subject => {
+            const bars = d3
+                .select("#chart")
+                .selectAll("div")
+                .data(data, d => d.name); // name is the key
+
+            const newBars = bars
+                .enter()
+                .append("div")
+                .attr("class", "bar")
+                .style("height", "0px");
+
+            newBars
+                .merge(bars)
+                .transition()
+                .style("height", d => d[subject] + "px");
+        };
+
+        render("math");
+        //# sourceURL=pen.js
+    </script>
+
+
+
+
+
+
+</body>
+
+</html>

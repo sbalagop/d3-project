@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico"
+    />
+    <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg"
+        color="#111" />
+    <title>CodePen - Bar chart html scale and animation</title>
+
+
+
+
+    <style>
+        #chart {
+            display: flex;
+            align-items: flex-end;
+            height: 300px;
+            border: 1px solid silver;
+            width: 500px;
+        }
+
+        .bar {
+            background-color: lightsalmon;
+            margin: 0px 2px;
+        }
+
+        button {
+            padding: 10px;
+            border-radius: 10px;
+            background-color: goldenrod;
+            font-size: 2vw;
+            margin-left: 10px;
+        }
+
+        button:active,
+        button:focus {
+            outline: 0;
+            box-shadow: 2px 2px;
+        }
+
+        .button-bar {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            width: 500px;
+        }
+    </style>
+
+    <script>
+        window.console = window.console || function (t) {};
+    </script>
+
+
+
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
+
+
+</head>
+
+<body translate="no">
+
+    <div id="chart">
+    </div>
+    <div class="button-bar">
+        <button onclick="render('math')">Math</button>
+        <button onclick="render('science')">Science</button>
+    </div>
+    <script src="//static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js'></script>
+
+
+
+    <script>
+        const data = [{
+                name: "Alice",
+                math: 93,
+                science: 84
+            },
+            {
+                name: "Bobby",
+                math: 81,
+                science: 97
+            },
+            {
+                name: "Carol",
+                math: 74,
+                science: 88
+            },
+            {
+                name: "David",
+                math: 25,
+                science: 95
+            },
+            {
+                name: "Emily",
+                math: 80,
+                science: 94
+            }
+        ];
+
+        const width = Number(d3.select('#chart').style('width').slice(0, -2)),
+            height = Number(d3.select('#chart').style('height').slice(0, -2));
+
+        //alert([width, height]);
+
+        // create a scale to map scores to bar widths
+        // test scores are stored as percentages
+        // a score of 100 should create a full-width bar
+        const yScale = d3
+            .scaleLinear()
+            .domain([0, 100])
+            .range([0, height]);
+
+        // dsitribute the width between the available names
+        const xScale = d3
+            .scaleBand()
+            .domain(data.map(item => item.name))
+            .range([0, width]);
+
+        let render = subject => {
+            const bars = d3
+                .select("#chart")
+                .selectAll("div")
+                .data(data, d => d.name); // name is the key
+
+            const newBars = bars
+                .enter()
+                .append("div")
+                .attr("class", "bar")
+                .style("height", "0px");
+
+            newBars
+                .merge(bars)
+                .transition()
+                .style("height", d => yScale(d[subject]) + "px")
+                .style("width", d => xScale.bandwidth() + 'px');
+        };
+
+        //render("math");
+
+        document.querySelector('.button-bar button').click();
+        document.querySelector('.button-bar button').focus();
+        //# sourceURL=pen.js
+    </script>
+
+
+
+
+
+
+</body>
+
+</html>
